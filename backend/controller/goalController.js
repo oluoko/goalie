@@ -9,6 +9,10 @@ const getGoals = (req, res) => {
 // @route      POST /api/goals
 // @access     Private
 const createGoal = (req, res) => {
+  if (!req.body.text) {
+    res.status(400);
+    throw new Error("Please add a text field");
+  }
   res.status(201).json({ message: "goalController: Goal created" });
 };
 
