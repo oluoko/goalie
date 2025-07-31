@@ -201,8 +201,7 @@ h3 {
 
 @media (max-width: 600px) {
   .container {
-    width: 100vw;
-    margin: 0;
+    width: 95vw;
   }
 
   .form {
