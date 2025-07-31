@@ -1,10 +1,25 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Dashboard from "./pages/Dashboard";
+import HomePage from "./pages/HomePage";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+import Header from "./components/Header";
+
 function App() {
   return (
-    <div>
-      <h1>
-        Welcome to <span> Goalie</span>
-      </h1>
-    </div>
+    <>
+      <Router>
+        <div className="container">
+          <Header />
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+          </Routes>
+        </div>
+      </Router>
+    </>
   );
 }
 

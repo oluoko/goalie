@@ -36,8 +36,7 @@ h3 {
 }
 
 .container {
-  width: 100%;
-  max-width: 960px;
+  width: 85vw;
   margin: 0 auto;
   padding: 0 20px;
   text-align: center;
@@ -47,7 +46,7 @@ h3 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 0;
+  padding: 9px 0;
   border-bottom: 1px solid #e6e6e6;
   margin-bottom: 60px;
 }
@@ -201,6 +200,11 @@ h3 {
 }
 
 @media (max-width: 600px) {
+  .container {
+    width: 100vw;
+    margin: 0;
+  }
+
   .form {
     width: 90%;
   }
