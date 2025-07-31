@@ -104,14 +104,55 @@ const getMe = asyncHandler(async (req, res) => {
 // @route  PUT /api/users/me
 // @access Private
 const updateMe = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: "User profile updated successfully" });
+  const user = await User.findById(req.user._id);
+
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+
+  const updatedUser = await User.findByIdAndUpdate(
+    req.user._id,
+    {
+      firstName: req.body.firstName || user.firstName,
+      lastName: req.body.lastName || user.lastName,
+      email: req.body.email || user.email,
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  res.status(200).json({
+    user: {
+      _id: updatedUser._id,
+      firstName: updatedUser.firstName,
+      lastName: updatedUser.lastName,
+      email: updatedUser.email,
+      role: updatedUser.role,
+    },
+    message: "User profile updated successfully",
+  });
 });
 
 // @desc   Delete my profile
 // @route  DELETE /api/users/me
 // @access Private
 const deleteMe = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: "User profile deleted successfully" });
+  const user = await User.findById(req.user._id);
+
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+
+  await User.findByIdAndDelete(req.user._id);
+
+  res.status(200).json({
+    id: req.user._id,
+    message: `User profile with ID: '${req.user._id}' deleted successfully`,
+  });
 });
 
 // Generate JWT
