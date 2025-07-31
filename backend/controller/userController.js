@@ -7,21 +7,97 @@ const User = require("../models/userModel");
 // @route     POST /api/users
 // @access   Public
 const registerUser = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: "User registered successfully" });
+  const { firstName, lastName, email, password } = req.body;
+
+  if (!firstName || !email || !password) {
+    res.status(400);
+    throw new Error("Please fill in all fields");
+  }
+
+  //   Check if user already exists
+  const userExists = await User.findOne({ email });
+
+  if (userExists) {
+    res.status(400);
+    throw new Error("User already exists");
+  }
+
+  //   Hash password
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(password, salt);
+
+  //   Create user
+  const user = await User.create({
+    firstName,
+    lastName,
+    email,
+    password: hashedPassword,
+  });
+
+  if (user) {
+    res.status(201).json({
+      user: {
+        _id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        role: user.role,
+
+        token: generateToken(user._id),
+      },
+      message: "User registered successfully",
+    });
+  } else {
+    res.status(400);
+    throw new Error("Invalid user data");
+  }
 });
 
 // @desc    Authenticate a user
 // @route  POST /api/users/login
 // @access Public
 const loginUser = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: "User logged in successfully" });
+  const { email, password } = req.body;
+
+  const user = await User.findOne({ email });
+
+  if (user && (await bcrypt.compare(password, user.password))) {
+    res.status(201).json({
+      user: {
+        _id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        role: user.role,
+
+        token: generateToken(user._id),
+      },
+      message: "User Logged-In successfully",
+    });
+  } else {
+    res.status(400);
+    throw new Error("Invalid email or password");
+  }
 });
 
 // @desc    Get user data
 // @route  GET /api/users/me
 // @access Private
 const getMe = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: "User data retrieved successfully" });
+  const { _id, firstName, lastName, email, role } = await User.findById(
+    req.user._id
+  );
+
+  res.status(200).json({
+    user: {
+      _id,
+      firstName,
+      lastName,
+      email,
+      role,
+    },
+    message: "User data retrieved successfully",
+  });
 });
 
 // @desc    Update my profile
@@ -37,6 +113,13 @@ const updateMe = asyncHandler(async (req, res) => {
 const deleteMe = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "User profile deleted successfully" });
 });
+
+// Generate JWT
+const generateToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: "30d",
+  });
+};
 
 module.exports = {
   registerUser,
