@@ -84,18 +84,8 @@ const loginUser = asyncHandler(async (req, res) => {
 // @route  GET /api/users/me
 // @access Private
 const getMe = asyncHandler(async (req, res) => {
-  const { _id, firstName, lastName, email, role } = await User.findById(
-    req.user._id
-  );
-
   res.status(200).json({
-    user: {
-      _id,
-      firstName,
-      lastName,
-      email,
-      role,
-    },
+    user: req.user,
     message: "User data retrieved successfully",
   });
 });
