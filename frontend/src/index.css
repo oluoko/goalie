@@ -75,9 +75,9 @@ h3 {
 }
 
 .heading {
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 700;
-  margin-bottom: 50px;
+  margin: 0 10px;
   padding: 0 20px;
 }
 
@@ -104,7 +104,10 @@ h3 {
   right: 15px;
   cursor: pointer;
   border: none;
-  background: none;
+  background: red;
+  color: #fff;
+  padding: 5px;
+  border-radius: 5px;
 }
 
 .form,
@@ -209,10 +212,10 @@ h3 {
   }
 
   .heading h1 {
-    font-size: 2rem;
+    font-size: 1.1rem;
   }
 
   .heading p {
-    font-size: 1.5rem;
+    font-size: 0.9rem;
   }
 }

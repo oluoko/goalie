@@ -7,7 +7,7 @@ const User = require("../models/userModel");
 // @access     Private
 const getGoals = asyncHandler(async (req, res) => {
   const goals = await Goal.find({ user: req.user.id });
-  res.status(200).json({ goals, message: " Successfully got goals" });
+  res.status(200).json(goals);
 });
 
 // @desc       Create goal
@@ -24,9 +24,7 @@ const createGoal = asyncHandler(async (req, res) => {
     user: req.user.id,
   });
 
-  res
-    .status(201)
-    .json({ goal, message: { text: `Goal with ID: '${goal._id}' created` } });
+  res.status(201).json(goal);
 });
 
 // @desc       Update goal
@@ -63,10 +61,7 @@ const updateGoal = asyncHandler(async (req, res) => {
     }
   );
 
-  res.status(200).json({
-    updatedGoal,
-    message: ` Goal with ID: '${req.params.id}' updated`,
-  });
+  res.status(200).json(updatedGoal);
 });
 
 // @desc       Delete goal
