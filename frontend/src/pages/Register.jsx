@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Meta from "../components/Meta";
 import { FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -7,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { register, reset } from "../features/auth/authSlice";
 import Spinner from "../components/Spinner";
-import { Helmet } from "react-helmet";
 
 function Register() {
   const [formData, setFormData] = useState({
