@@ -58,7 +58,6 @@ function Login() {
 
   return (
     <>
-      <Meta title="Login" />
       <section className="heading">
         <h1>
           <FaSignInAlt />

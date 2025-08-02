@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { register, reset } from "../features/auth/authSlice";
 import Spinner from "../components/Spinner";
+import { Helmet } from "react-helmet";
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -67,7 +68,6 @@ function Register() {
 
   return (
     <>
-      <Meta title="Register" />
       <section className="heading">
         <h1>
           <FaUser />
